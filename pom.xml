@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.plazmix</groupId>
+    <artifactId>plazmix-coordinator</artifactId>
+    <version>1.0.0</version>
+
+    <name>Coordinator-ALL</name>
+
+    <!-- Organization Info Block -->
+    <organization>
+        <name>Plazmix Network</name>
+        <url>https://plazmix.net/</url>
+    </organization>
+
+    <!-- Developers list Info Block -->
+    <developers>
+        <developer>
+            <id>ItzStonlex</id>
+            <url>https://vk.com/itzstonlex</url>
+            <email>itzstonlex@bk.ru</email>
+        </developer>
+    </developers>
+
+    <!-- XML Properties Info Block -->
+    <properties>
+        <gitlab.repository.url>https://gitlab.plazmix.space/api/v4/projects/103/packages/maven</gitlab.repository.url>
+        <project.libs.basedir>${project.basedir}/.lib</project.libs.basedir>
+
+        <lombok.depend.version>1.18.22</lombok.depend.version>
+        <recon.depend.version>1.1.0</recon.depend.version>
+
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <!-- Dependencies Block -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.depend.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.plazmix</groupId>
+            <artifactId>base-coordinator</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.itzstonlex</groupId>
+            <artifactId>Recon</artifactId>
+            <version>${recon.depend.version}</version>
+
+            <scope>system</scope>
+            <systemPath>${project.libs.basedir}/Recon.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.itzstonlex</groupId>
+            <artifactId>MinecraftRecon</artifactId>
+            <version>${recon.depend.version}</version>
+
+            <scope>system</scope>
+            <systemPath>${project.libs.basedir}/MinecraftRecon.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <!-- Issues Info Block -->
+    <issueManagement>
+        <system>GitLab</system>
+        <url>https://gitlab.plazmix.space/groups/plazmix-dev/qa/-/issues</url>
+    </issueManagement>
+
+    <!-- Build Info Block -->
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <defaultGoal>clean package install</defaultGoal>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>${project.artifactId}</artifactId>
+                    <version>${project.version}</version>
+
+                    <url>${gitlab.repository.url}</url>
+                    <repositoryId>${gitlab.repository.url}</repositoryId>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <target>1.8</target>
+                    <source>1.8</source>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>net.plazmix.core.PlazmixCoreStarter</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>**/*.java</exclude>
+                                <exclude>**/*.SF</exclude>
+                                <exclude>**/*.DSA</exclude>
+                                <exclude>module-info.class</exclude>
+                                <exclude>**/Log4j2Plugins.dat</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Repositories Info Block -->
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <name>jcenter-bintray</name>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+
+        <repository>
+            <id>plazmix-maven</id>
+            <url>https://maven.plazmix.space/repository/</url>
+        </repository>
+
+        <repository>
+            <id>gitlab-maven</id>
+            <url>${gitlab.repository.url}</url>
+        </repository>
+    </repositories>
+
+    <!-- Distribution management Info Block -->
+    <distributionManagement>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>${gitlab.repository.url}</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>gitlab-maven</id>
+            <url>${gitlab.repository.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

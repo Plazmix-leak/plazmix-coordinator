@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.plazmix</groupId>
+    <artifactId>base-coordinator</artifactId>
+    <version>1.0.0</version>
+
+    <name>Coordinator-BASE</name>
+
+    <!-- Organization Info Block -->
+    <organization>
+        <name>Plazmix Network</name>
+        <url>https://plazmix.net/</url>
+    </organization>
+
+    <!-- Developers list Info Block -->
+    <developers>
+        <developer>
+            <id>ItzStonlex</id>
+            <url>https://vk.com/itzstonlex</url>
+            <email>itzstonlex@bk.ru</email>
+        </developer>
+    </developers>
+
+    <!-- XML Properties Info Block -->
+    <properties>
+        <gitlab.repository.url>https://gitlab.plazmix.space/api/v4/projects/103/packages/maven</gitlab.repository.url>
+        <project.libs.basedir>${project.basedir}/../.lib</project.libs.basedir>
+
+        <lombok.depend.version>1.18.22</lombok.depend.version>
+        <recon.depend.version>1.1.0</recon.depend.version>
+
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <!-- Dependencies Block -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.depend.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.plazmix</groupId>
+            <artifactId>coordinator-common-api</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.itzstonlex</groupId>
+            <artifactId>Recon</artifactId>
+            <version>${recon.depend.version}</version>
+
+            <scope>system</scope>
+            <systemPath>${project.libs.basedir}/Recon.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.itzstonlex</groupId>
+            <artifactId>MinecraftRecon</artifactId>
+            <version>${recon.depend.version}</version>
+
+            <scope>system</scope>
+            <systemPath>${project.libs.basedir}/MinecraftRecon.jar</systemPath>
+        </dependency>
+    </dependencies>
+</project>
